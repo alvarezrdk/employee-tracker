@@ -1,17 +1,18 @@
 {
-  
-  "scripts": {
-    "start": "node server.js"
-  },
   "name": "employee-database",
-  "description": "",
+  "description": "Employee Database",
   "version": "1.0.0",
   "main": "index.js",
+  
   "dependencies": {
-    "inquirer": "^8.2.4",
-    "mysql2": "^3.4.0"
+  "inquirer": "^8.2.4",
+  "mysql2": "^3.4.0"
+  },
+  
+  "scripts": {
+  "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "RDAC",
   "license": "ISC"
 }
