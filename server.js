@@ -1,6 +1,7 @@
 const express = require('express');
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
+const fs = require('fs');
 
 const app = express();
 // Express middleware
@@ -26,8 +27,22 @@ db.connect((err) => {
 
 // Function to display the main menu and handle user input
 function displayMainMenu() {
-    inquirer
-      .prompt({
+
+app.get('readfile', (req, res) => {
+  const filepath = '../start.txt';
+  console.log('file reading')
+  fs.readFile(filepath, 'utf8', (err, data) => {
+      if (err) {
+        console.log('Error reading the file.');
+      } else {
+        console.log(data);
+        res.send('File content printed to the console.');
+      }
+  });
+});
+
+
+    inquirer.prompt({
         name: 'choice',
         type: 'list',
         message: 'What would you like to do?',
