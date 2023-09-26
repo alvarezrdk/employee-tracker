@@ -1,5 +1,11 @@
+const express = require('express');
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
+
+const app = express();
+// Express middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // Connect to database
 const db = mysql.createConnection(
@@ -67,7 +73,7 @@ function displayMainMenu() {
   }
 
   function viewAllDepartments() {
-    db.query('SELECT * FROM department', (err, data) => {
+    db.query('SELECT name FROM department', function (err, data) {
       if (err) throw err
       console.table(data)
       displayMainMenu()
@@ -75,7 +81,7 @@ function displayMainMenu() {
   }
 
   function viewAllRoles() {
-    db.query('SELECT * FROM role', (err, data) => {
+    db.query('SELECT title, salary FROM role', (err, data) => {
       if (err) throw err
       console.table(data)
       displayMainMenu()
@@ -83,7 +89,7 @@ function displayMainMenu() {
   }
 
   function viewAllEmployees() {
-    db.query('SELECT * FROM employee', (err, data) => {
+    db.query('SELECT first_name, last_name, title, salary, name FROM employeedb.employee INNER JOIN role on employeedb.employee.role_id = employeedb.role.id INNER JOIN employeedb.department on role.department_id = department.id', (err, data) => {
       if (err) throw err
       console.table(data)
       displayMainMenu()
