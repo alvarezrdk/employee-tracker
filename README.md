@@ -30,6 +30,6 @@ It does not requires installation.
 ![Alt text](image.png)
 
 ## link to Video
-[https://drive.google.com/file/d/1BaCpOsVseKz5Ll1xme8iZJ-r4XmcrV-/view]
+https://drive.google.com/file/d/1BaCpOsVseKz5Ll1xme8iZJ-r4XmcrV-/view
 ## License
 Please review license in the json file.
