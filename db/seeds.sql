@@ -24,6 +24,6 @@ VALUES ("John", "Doe", 1, null),
        ("Kevin", "Tupik", 4, 1),
        ("Kunal", "Sing", 5, 1),
        ("Malia", "Brown", 6, 1),
-       ("Tom" "Allen", 7, 1),
-       ("Sara" "Lourd", 8, 1)
+       ("Tom", "Allen", 7, 1),
+       ("Sara", "Lourd", 8, 1)
 
