@@ -24,17 +24,17 @@ const db = mysql.createConnection(
   
   function mainMenu() {
       inquirer.prompt({
-          type: 'list',
           name: 'choice',
+          type: 'list',
           message: 'What would you like to do?',
           choices: [
-            'View all departments',
-            'View all roles',
-            'View all employees',
-            'Add a department',
-            'Add a role',
-            'Add an employee',
-            'Update an employee role',
+            'View all Departments',
+            'View all Roles',
+            'View all Employees',
+            'Add a Department',
+            'Add a Role',
+            'Add an Employee',
+            'Update Employee role',
             'Exit'
             ]}
           ) 
@@ -180,4 +180,4 @@ const db = mysql.createConnection(
     })
     }
   
-  module.exports = mainMenu
+  // module.exports = mainMenu
