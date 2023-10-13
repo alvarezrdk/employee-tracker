@@ -41,43 +41,50 @@ const db = mysql.createConnection(
           .then((inputs) => {
   
         switch (inputs.choice) {
-        case 'View all departments':
+        case 'View all Departments':
             console.log('List of All departments...');
-            db.execute('SELECT name FROM department', function (err, data) { 
+            db.execute('SELECT id, name FROM department', function (err, data) { 
                 if (err) throw err 
-                console.table(data)} );
-                mainMenu()
+                console.table(data);
+                mainMenu();
+              });
+                
           break;
   
-        case 'View all roles':
+        case 'View all Roles':
             console.log('Viewing all roles...');
-            db.query('SELECT title, salary FROM roles', (err, data) => {
+            db.query('SELECT id, title, salary FROM roles', (err, data) => {
                 if (err) throw err
-                console.table(data)});
+                console.table(data);
+                mainMenu();
+              });
           break;
   
-        case 'View all employees':
+        case 'View all Employees':
             console.log('Viewing all employees...');
-            db.query('SELECT first_name, last_name, title, salary, name FROM employee_db.employee INNER JOIN roles on employee_db.employee.role_id = employee_db.roles.id INNER JOIN employee_db.department on roles.department_id = department.id', (err, data) => {
+            db.query('SELECT employee_db.employee.id, first_name, last_name, title, salary, name FROM employee_db.employee INNER JOIN roles on employee_db.employee.role_id = employee_db.roles.id INNER JOIN employee_db.department on roles.department_id = department.id', (err, data) => {
                 if (err) throw err
-                console.table(data)});
+                console.table(data)
+                mainMenu();
+              });
           break;
   
-        case 'Add a department':
+        case 'Add a Department':
           console.log('Adding a department...');
           inquirer.prompt([
             {
               type: 'input',
               name: 'department',
-              message: 'Name of the department you want to add'
+              message: 'Department you want to add'
             }
           ]).then(inputs => {
             db.query('INSERT INTO department SET ?', {
-              name: inputs.deptName
-            })});
+              name: inputs.department
+            })
+            mainMenu();});
           break;
   
-        case 'Add a role':
+        case 'Add a Role':
           console.log('Adding a role...');
             inquirer.prompt([
                 {
@@ -97,7 +104,7 @@ const db = mysql.createConnection(
                 }
           ]).then(inputs => {
             const { name, salary, id } = inputs;
-            const sql = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+            const sql = 'INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)';
             const values = [name, salary, id];
             db.query(sql, values, (error, results) => {
               if (error) {
@@ -105,11 +112,12 @@ const db = mysql.createConnection(
                 return;
               }
               console.log('Role saved');
+              mainMenu();
             });
         });
           break;
   
-        case 'Add an employee':
+        case 'Add an Employee':
           console.log('Adding an employee...');
           inquirer.prompt([
             {
@@ -133,20 +141,21 @@ const db = mysql.createConnection(
               message: 'Enter Manager ID:'
             }
           ]).then(inputs => {
-            const { firstname, lastname, roleId, manager } = inputs;
+            const { firstname, lastname, roleid, manager } = inputs;
             const sql = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
-            const values = [firstname, lastname, roleId, manager || null];
+            const values = [firstname, lastname, roleid, manager || null];
             db.query(sql, values, (error, results) => {
               if (error) {
                 console.error('Error Adding New employee...', error);
                 return;
               }
               console.log('Employee created correctly...');
+              mainMenu();
             })
         })
           break;
   
-        case 'Update an employee role':
+        case 'Update Employee role':
           console.log('Updating an employee role...');
           inquirer.prompt([
             {
@@ -164,6 +173,7 @@ const db = mysql.createConnection(
             db.query('UPDATE employee SET role_id = ? WHERE id = ?', [roleId, inputs.employeeId], (err, result) => {
               if (err) throw err;
               console.log('Employee role updated...');
+              mainMenu();
             });
           });
           break;
@@ -176,8 +186,9 @@ const db = mysql.createConnection(
   
         default:
           console.log('Invalid choice. Please try again.');
+          mainMenu();
       }
     })
     }
   
-  // module.exports = mainMenu
+  module.exports = mainMenu
