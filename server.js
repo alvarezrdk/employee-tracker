@@ -1,11 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
-
-const PORT = process.env.PORT || 3002;
 const app = express();
-
 const inquirer = require('inquirer');
-const { resolve } = require('path');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -17,17 +13,7 @@ const db = mysql.createConnection(
     password: 'root',
     database: 'employee_db',
     port: 8889
-  },
-  console.log(`Connected to the employee_db database.`)
-);
-
-app.use((req, res) => {
-    res.status(404).end();
-  });
-  
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+  })
 
   
   const mainMenu = async () => {
@@ -69,7 +55,7 @@ app.use((req, res) => {
   
         case 'View all employees':
             console.log('Viewing all employees...');
-            db.query('SELECT first_name, last_name, title, salary, name FROM employeedb.employee INNER JOIN role on employeedb.employee.role_id = employeedb.role.id INNER JOIN employeedb.department on role.department_id = department.id', (err, data) => {
+            db.query('SELECT first_name, last_name, title, salary, name FROM employee_db.employee INNER JOIN roles on employee_db.employee.role_id = employee_db.roles.id INNER JOIN employee_db.department on roles.department_id = department.id', (err, data) => {
                 if (err) throw err
                 console.table(data)});
           break;
@@ -90,22 +76,22 @@ app.use((req, res) => {
   
         case 'Add a role':
           console.log('Adding a role...');
-          inquirer.prompt([
-            {
-              type: 'input',
-              name: 'name',
-              message: 'Title of the role you would like to add'
-            },
-            {
-              type: 'input',
-              name: 'salary',
-              message: 'Salary for this role'
-            },
-            {
-              type: 'input',
-              name: 'id',
-              message: 'Department ID for this role'
-            }
+            inquirer.prompt([
+                {
+                type: 'input',
+                name: 'name',
+                message: 'Title of the role you would like to add'
+                },
+                {
+                type: 'input',
+                name: 'salary',
+                message: 'Salary for this role'
+                },
+                {
+                type: 'input',
+                name: 'id',
+                message: 'Department ID for this role'
+                }
           ]).then(inputs => {
             const { name, salary, id } = inputs;
             const sql = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
@@ -182,6 +168,7 @@ app.use((req, res) => {
         case 'Exit':
           console.log('Goodbye!');
           showmenu = false;
+          connection.end();
           break;
   
         default:
@@ -197,3 +184,4 @@ app.use((req, res) => {
   
   startApp();
   
+  module.exports = mainMenu
