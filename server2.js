@@ -15,15 +15,13 @@ const db = mysql.createConnection(
     port: 8889
   })
 
-  db.connect((err) => {
-    if (err) throw err
-    console.log('connected to database')
-    mainMenu()
-  })
-
   
-  function mainMenu() {
-      inquirer.prompt({
+  const mainMenu = async () => {
+    let showmenu = true;
+  
+    while (showmenu) {
+      await inquirer.prompt(
+        {
           type: 'list',
           name: 'choice',
           message: 'What would you like to do?',
@@ -36,17 +34,16 @@ const db = mysql.createConnection(
             'Add an employee',
             'Update an employee role',
             'Exit'
-            ]}
-          ) 
-          .then((inputs) => {
+          ]
+        }
+        ) .then((inputs) => {
   
-        switch (inputs.choice) {
+      switch (inputs.choice) {
         case 'View all departments':
             console.log('List of All departments...');
             db.execute('SELECT name FROM department', function (err, data) { 
                 if (err) throw err 
                 console.table(data)} );
-                mainMenu()
           break;
   
         case 'View all roles':
@@ -171,13 +168,20 @@ const db = mysql.createConnection(
         case 'Exit':
           console.log('Goodbye!');
           showmenu = false;
-          db.end();
+          connection.end();
           break;
   
         default:
           console.log('Invalid choice. Please try again.');
       }
     })
-    }
+    }}
+  
+  const startApp = () => {
+    console.log('Welcome to the Employee Management System!');
+    mainMenu();
+  };
+  
+  startApp();
   
   module.exports = mainMenu
