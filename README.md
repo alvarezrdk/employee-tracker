@@ -27,11 +27,10 @@ THEN I am prompted to select an employee to update and their new role and this i
 It does not requires installation.
 
 ## Image of the Application
-![Alt text](image.png)
+<img width="1385" alt="image" src="https://github.com/alvarezrdk/employee-tracker/assets/128987959/895d5151-8e50-44b3-be94-966744c517ad">
 
 ## link to Video
-
-https://drive.google.com/file/d/1BaCpOsVseKz5Ll1xme8iZJ-r4LXmcrV-/view
+https://drive.google.com/file/d/14w85LhGYmmJhAH4vkG7qoia8g9gEVmSE/view
 
 ## License
 Please review license in the json file.
